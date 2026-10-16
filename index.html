@@ -2,6 +2,11 @@
 <html lang="ko">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D Kurd · Virtual Handpan</title><style>
 :root{color-scheme:light;--ink:#242b29;--muted:#737b73;--accent:#b3673d}*{box-sizing:border-box}body{margin:0;background:#f6f5f0;color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}main{max-width:980px;margin:auto;padding:28px 32px}header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #dedfd5;padding-bottom:23px}.brand{color:inherit;text-decoration:none;font-size:15px;font-weight:750;letter-spacing:2px}.brand span{font-weight:400;color:var(--muted)}.edition{font-size:10px;letter-spacing:2px;color:var(--muted)}.intro{text-align:center;margin:50px 0 34px}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--accent)}h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(32px,5vw,51px);letter-spacing:-1.5px;margin:16px 0}h1 em{font-weight:400;color:#906045}.intro>p:last-child{font-size:13px;color:var(--muted);line-height:1.8}.toolbar{display:flex;gap:22px;align-items:center;max-width:660px;margin:0 auto 20px;font-size:12px}.scale{font-size:13px;font-weight:700;letter-spacing:1px;margin-right:auto}.scale small{font-size:9px;font-weight:400;color:var(--muted);margin-left:8px}label{display:flex;align-items:center;gap:6px;white-space:nowrap}input{accent-color:#986a4b}input[type=range]{width:90px}.instrument{position:relative;width:min(100%,660px);aspect-ratio:1;margin:auto;border-radius:50%;isolation:isolate;box-shadow:0 24px 45px -30px #32271f66}.instrument>img{width:100%;height:100%;border-radius:50%;object-fit:cover;user-select:none}.pad{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);width:15%;height:15%;transform:translate(-50%,-50%);border-radius:50%;background:#191d1c12;border:1px solid #ffffff33;color:white;cursor:pointer;touch-action:none;-webkit-tap-highlight-color:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .12s,box-shadow .12s}.pad strong{font-size:clamp(14px,3vw,23px);font-weight:500;text-shadow:0 1px 7px #000}.pad small{font-size:10px;margin-top:4px;color:#fff9}.pad:hover,.pad:focus-visible{background:#ffffff25;outline:2px solid #f1cf9c}.pad.active{background:#f9d6a466;box-shadow:0 0 0 9px #ffd29922,0 0 35px #ffc78155}.hide-labels .pad strong,.hide-labels .pad small{visibility:hidden}.gate{position:absolute;inset:0;border-radius:50%;background:#161a1755;display:flex;align-items:center;justify-content:center;flex-direction:column;backdrop-filter:blur(2px);z-index:2}.gate[hidden]{display:none}button{font:inherit}.gate button{border:0;background:#f5f0e5;padding:18px 28px;border-radius:40px;color:#252a25;font-size:15px;cursor:pointer}.gate button span{margin-left:30px}.gate p{font-size:11px;color:#fff}.percussion{display:flex;justify-content:center;gap:10px;margin:32px 0 20px}.percussion button{border:1px solid #dadcd1;background:#f0f0e8;border-radius:12px;min-width:106px;padding:14px 20px;font-size:12px;letter-spacing:1px;color:var(--ink);touch-action:none;cursor:pointer}.percussion small{display:block;font-size:9px;color:var(--muted);margin-top:6px;letter-spacing:.5px}.percussion button.active{background:#d8c0a4}.statusline{display:flex;align-items:center;justify-content:center;gap:15px;font-size:11px;color:var(--muted);min-height:30px}#stop{border:0;background:none;color:#8a644a;text-decoration:underline;cursor:pointer;font-size:11px}footer{display:flex;justify-content:space-between;border-top:1px solid #dedfd5;padding-top:22px;margin-top:30px;font-size:10px;color:var(--muted);letter-spacing:.7px}details{font-size:11px;color:var(--muted);margin-top:22px;line-height:1.8}summary{cursor:pointer}button:focus-visible{outline:2px solid #8c5b35;outline-offset:3px}@media(max-width:560px){main{padding:22px 17px}.edition{display:none}.intro{margin:30px 0 24px}.toolbar{gap:10px}.scale small{display:none}input[type=range]{width:65px}.pad small{font-size:8px}.percussion button{min-width:85px;padding:12px 14px}footer{gap:12px;font-size:9px}.statusline{font-size:10px;flex-wrap:wrap}}
+
+/* Two percussion triggers on the shoulder around the ding. */
+.pad.percussion-pad{width:12%;height:12%;min-width:40px;min-height:40px;border:1px dashed #f7dec180;background:#38271d38}
+.pad.percussion-pad strong{font-size:clamp(11px,2.4vw,17px);letter-spacing:.04em}
+.pad.percussion-pad.active{background:#f9d6a466;box-shadow:0 0 0 7px #ffd29922,0 0 30px #ffc78155}
 </style></head>
 <body>
 <main>
@@ -24,15 +29,15 @@ const NOTES = [
  {id:'F4',label:'F4',file:'07_F4.wav',x:26,y:21,key:'h'},
  {id:'G4',label:'G4',file:'08_G4.wav',x:73,y:22,key:'j'},
  {id:'A4',label:'A4',file:'09_A4.wav',x:50,y:13,key:'k'},
- {id:'Tik',label:'틱',file:'10_Tik.wav',key:'z'},
- {id:'Tak',label:'택',file:'11_Tak.wav',key:'x'}
+ {id:'Tik',label:'TIK',file:'10_Tik.wav',x:33,y:38,key:'z',percussion:true},
+ {id:'Tak',label:'TAK',file:'11_Tak.wav',x:65,y:38,key:'x',percussion:true}
 ];
 let context, master, ready=false, loading=null;
 const buffers=new Map(), voices=new Set(), flashes=new Map();
 const status=document.querySelector('#status');
 const buttons=new Map();
 for(const note of NOTES.filter(n=>n.x!==undefined)){
- const b=document.createElement('button');b.className='pad';b.dataset.play=note.id;
+ const b=document.createElement('button');b.className='pad'+(note.percussion?' percussion-pad':'');b.dataset.play=note.id;
  b.style.setProperty('--x',note.x);b.style.setProperty('--y',note.y);
  b.setAttribute('aria-label',`${note.label} 연주, 키보드 ${note.hint||note.key.toUpperCase()}`);
  const title=document.createElement('strong');title.textContent=note.label;
